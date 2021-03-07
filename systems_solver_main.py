@@ -69,16 +69,18 @@ class Middle(tk.Frame):
         self.grid(row=0, column = 1)
         self.grid_propagate(False)
 
-        entryEqs.extend([tk.Entry(self, width=30), tk.Entry(self, width=30)])
-        self.btnXs.extend([tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum - 2)),\
-                           tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum - 1))])
+        entryEqs.extend([tk.Entry(self, width=26), tk.Entry(self, width=26)])
+        self.btnXs.extend([[tk.Label(self, text="= 0", bg="#4B9CD3"), tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum - 2))],\
+                           [tk.Label(self, text="= 0", bg="#4B9CD3"), tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum - 1))]])
         
         self.btnAddEq = tk.Button(self, text="ADD EQ", command=self.add_equation)
 
         entryEqs[0].grid(row=0, column=1, pady=3, padx=2)
         entryEqs[1].grid(row=1, column=1, pady=3, padx=2)
-        self.btnXs[0].grid(row=0, column=2)
-        self.btnXs[1].grid(row=1, column=2)
+        self.btnXs[0][0].grid(row=0, column=2)
+        self.btnXs[1][0].grid(row=1, column=2)
+        self.btnXs[0][1].grid(row=0, column=3)
+        self.btnXs[1][1].grid(row=1, column=3)
         
         self.btnAddEq.grid(row=self.eqNum, column=1)
         
@@ -102,14 +104,14 @@ class Middle(tk.Frame):
         
         global selected
         
-        entryEqs.append(tk.Entry(self, width=30))
-        self.btnXs.append(tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum)))
+        entryEqs.append(tk.Entry(self, width=26))
+        self.btnXs.append([tk.Label(self, text="= 0", bg="#4B9CD3"), tk.Button(self, width=1, height=1, text="X", command=lambda: self.del_equation(self.eqNum))])
         
-
         entryEqs[self.eqNum].grid(row=self.eqNum, column=1, pady=3, padx=2)
         self.btnAddEq.grid(row=self.eqNum + 1, column=1)
-        self.btnXs[self.eqNum].grid(row=self.eqNum, column=2)
-        
+        self.btnXs[self.eqNum][0].grid(row=self.eqNum, column=2)
+        self.btnXs[self.eqNum][1].grid(row=self.eqNum, column=3)
+
         # increment equation number
         self.eqNum += 1
         # select new entry
@@ -124,16 +126,18 @@ class Middle(tk.Frame):
         removes equation element from entryEqs"""
         
         entryEqs[equation - 1].destroy()
-        self.btnXs[equation - 1].destroy()
-        
+        self.btnXs[equation - 1][0].destroy()
+        self.btnXs[equation - 1][1].destroy()
+
         del entryEqs[equation - 1]
         del self.btnXs[equation- 1]
 
         for entry in entryEqs:
             entry.grid(row=entryEqs.index(entry))
         for x in self.btnXs:
-            x.grid(row=self.btnXs.index(x))
-            x["command"] = lambda: self.del_equation(self.btnXs.index(x))
+            x[0].grid(row=self.btnXs.index(x))
+            x[1].grid(row=self.btnXs.index(x))
+            x[1]["command"] = lambda: self.del_equation(self.btnXs.index(x))
 
         self.eqNum -= 1
         
