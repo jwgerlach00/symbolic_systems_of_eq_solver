@@ -116,7 +116,7 @@ class Middle(tk.Frame):
         selected = entryEqs[self.eqNum - 1]
         entryEqs[self.eqNum - 1].focus_set
         # bind selection to new equation
-        entryEqs[self.eqNum - 1].bind("<1>", lambda event, e=entry: self.select_entry(e))
+        entryEqs[self.eqNum - 1].bind("<1>", lambda event, e=entryEqs[self.eqNum - 1]: self.select_entry(e))
 
         
     def del_equation(self, equation):
