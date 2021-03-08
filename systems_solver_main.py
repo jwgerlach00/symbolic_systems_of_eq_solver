@@ -7,7 +7,7 @@ from sympy.parsing.sympy_parser import standard_transformations,\
 
 
 selected = None # points to selected entrybox
-entryEqs = [] # container for entry.get equation input
+entryEqs = [] # container for entry boxes for entry.get equation input
 textAnswer = "" # new answer to append to history
 history = "" # stores all previous answers until cleared
 
@@ -213,7 +213,14 @@ class Right(tk.Frame):
     
     def clear_output(self):
         """calls bottom label output with CLEAR parameter set to true"""
+
+        global history
+        global entryEqs
+
+        history = ""
         Bottom.bottom_label(frame4, " ", clear=True)
+        for i in entryEqs:
+            i.delete(0, 'end')
         
 
     def disp_output(self, solutions, parseSyms, syms):
